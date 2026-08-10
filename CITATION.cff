@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+type: software
+title: "hydrovent_field: a procedural hydrothermal vent field generator and prebiotic-concentration simulation tool"
+version: 1.0.0
+date-released: 2026-08-07
+authors:
+  - family-names: Amaral
+    given-names: Cesar
+    affiliation: "Environmental Molecular Genetics and Astrobiology Group (NGA), Dept. of Biophysics and Biometry, IBRAG, Rio de Janeiro State University (UERJ)"
+repository-code: "https://github.com/cesarrlamaral/hydrovent_field"
+url: "https://github.com/cesarrlamaral/hydrovent_field"
+license: MIT
+keywords:
+  - hydrothermal vents
+  - prebiotic chemistry
+  - origin of life
+  - astrobiology
+  - plume dynamics
+  - acoustic radiation force
+  - agent-based simulation

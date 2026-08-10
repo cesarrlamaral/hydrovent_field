@@ -1,0 +1,16 @@
+numpy>=1.24
+# >=1.10 also required: fumarola_field.joint_latin_hypercube() uses
+# scipy.stats.qmc.LatinHypercube(optimization="random-cd"), added in 1.10.
+scipy>=1.10
+# >=3.11 required: fumarola_field.py's bathymetry-contour rendering calls
+# ContourSet.set_path_effects() directly (ContourSet became a Collection
+# subclass itself in this release); older matplotlib raises AttributeError.
+matplotlib>=3.11
+pillow>=10.0
+
+# dev / testing
+pytest>=7.0
+
+# optional: only needed for --artistic-render / the GUI's artistic-view
+# checkbox (artistic_render.py). Not imported unless that feature is used.
+pyvista>=0.48

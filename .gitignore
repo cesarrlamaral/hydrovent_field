@@ -1,0 +1,34 @@
+# Dados gerados por runs/ensembles — totalmente reproduzíveis a partir do
+# seed (ver docs/PHYSICS_MODEL.md), não faz sentido versionar (>1GB e cresce
+# a cada run).
+outputs/
+outputs_*/
+
+# PDFs de artigos de terceiros (obtidos por canais legítimos para
+# verificação de citação, mas não redistribuíveis publicamente por padrão —
+# ver conversa sobre direitos autorais) e rascunhos do manuscrito.
+biblios/
+paper/
+
+# Gerador de relatório/paper e o script administrativo que o expõe: contêm
+# texto de interpretação científica específico do autor (não é software
+# genérico) e um login protegido por senha (hash) — deliberadamente mantidos
+# fora do histórico público. Ver docs/PHYSICS_MODEL.md/CITATIONS_TO_VERIFY.md
+# para o restante da documentação, que é pública.
+report.py
+relatorios_admin.py
+tests/test_report.py
+
+# Texto das normas de autoria da SAGE/Astrobiology colado integralmente de
+# journals.sagepub.com/author-instructions/ASB — conteúdo de terceiros
+# (editora), não redistribuído aqui por precaução de direitos autorais.
+docs/ASTROBIOLOGY_SAGE_AUTHOR_RULES.txt
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Configuração local do Claude Code (allowlist de permissões desta máquina,
+# não é parte do projeto)
+.claude/

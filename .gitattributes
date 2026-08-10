@@ -1,0 +1,14 @@
+# Normaliza texto para LF no repositório, independente do SO de quem
+# fizer checkout/commit (evita diffs espúrios de CRLF/LF entre Windows,
+# Linux e macOS).
+* text=auto eol=lf
+
+# Binários: nunca aplicar conversão de fim de linha (isso corromperia o
+# arquivo). Declarados explicitamente em vez de confiar só na heurística
+# automática do git.
+*.png binary
+*.tif binary
+*.tiff binary
+*.mp4 binary
+*.xlsx binary
+*.pdf binary
