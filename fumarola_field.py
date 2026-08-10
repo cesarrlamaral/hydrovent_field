@@ -1201,7 +1201,7 @@ def execute_run(args: argparse.Namespace, seed: int, run_dir: str, make_images: 
             writer.writerows(hotspots["records"])
 
     png_path = png_3d_path = png_true_path = png_hotspots_path = png_acoustic_path = None
-    png_artistic_path = png_artistic_fauna_path = None
+    png_artistic_path = None
     png_module_paths = {key: None for key in MODULE_GRADIENT_LABELS}
     if make_images:
         png_path = os.path.join(run_dir, f"{args.basename}.png")
@@ -1238,22 +1238,14 @@ def execute_run(args: argparse.Namespace, seed: int, run_dir: str, make_images: 
             # artistic_render.py) — não deve travar o resto do projeto
             # para quem não a usa.
             import artistic_render as ar
-            # Sempre gera as DUAS versões (com e sem a camada de fauna
-            # quimiossintética — tapete bacteriano/mexilhões/vermes
-            # tubulares/camarões, dados reais de `v.fauna_zones`) em vez
-            # de expor mais uma checkbox: usuário pediu explicitamente
-            # "gere duas visualizações" quando a opção artística está
-            # marcada, não uma opção condicional.
+            # Uma única visualização artística (sem fauna — a opção
+            # com/sem fauna existiu numa versão anterior, mas o usuário
+            # relatou que as duas versões "não faziam a menor diferença"
+            # visualmente; removida em vez de mantida como opção morta).
             png_artistic_path = os.path.join(run_dir, f"{args.basename}_artistic.png")
             ar.render_artistic_scene(terrain, vents, png_artistic_path,
                                       domain_size_m=args.domain_size_m,
-                                      local_relief_m=args.local_relief_m, seed=seed,
-                                      include_fauna=False)
-            png_artistic_fauna_path = os.path.join(run_dir, f"{args.basename}_artistic_fauna.png")
-            ar.render_artistic_scene(terrain, vents, png_artistic_fauna_path,
-                                      domain_size_m=args.domain_size_m,
-                                      local_relief_m=args.local_relief_m, seed=seed,
-                                      include_fauna=True)
+                                      local_relief_m=args.local_relief_m, seed=seed)
 
         if acoustic_result is not None:
             png_acoustic_path = os.path.join(run_dir, f"{args.basename}_acoustic.png")
@@ -1295,7 +1287,6 @@ def execute_run(args: argparse.Namespace, seed: int, run_dir: str, make_images: 
         "png_3d_path": png_3d_path,
         "png_truescale_path": png_true_path,
         "png_artistic_path": png_artistic_path,
-        "png_artistic_fauna_path": png_artistic_fauna_path,
         "png_hotspots_path": png_hotspots_path,
         "png_acoustic_path": png_acoustic_path,
         "png_module_dilution_path": png_module_paths["dilution"],
@@ -1434,10 +1425,8 @@ def main():
     parser.add_argument("--true-scale", action="store_true",
                          help="também renderiza uma cena 3D em escala vertical verdadeira (sem exagero, metros reais, 1:1:1)")
     parser.add_argument("--artistic-render", action="store_true",
-                         help="renderiza DUAS visualizações artísticas NÃO-científicas (PyVista, materiais/"
-                              "iluminação fotográficos calibrados contra uma foto real de referência), uma "
-                              "com e uma sem a camada de fauna quimiossintética (tapete bacteriano/"
-                              "mexilhões/vermes tubulares/camarões, raios reais de v.fauna_zones) — "
+                         help="renderiza uma visualização artística NÃO-científica (PyVista, materiais/"
+                              "iluminação fotográficos calibrados contra uma foto real de referência) — "
                               "geometria vem dos mesmos dados procedurais, cores/câmera são escolha "
                               "estética; requer o pacote opcional pyvista (pip install pyvista)")
     parser.add_argument("--domain-size-m", type=float, default=1200.0,

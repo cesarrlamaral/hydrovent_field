@@ -143,35 +143,6 @@ _CHIMNEY_TINTS_BY_TYPE = {
 _WHITE_MINERAL_TINT = np.array([0.95, 0.93, 0.87])
 _DARK_MINERAL_TINT = np.array([0.22, 0.22, 0.25])
 
-# Camada de fauna quimiossintética (opt-in via `include_fauna`, ver
-# `render_artistic_scene`/`fumarola_field.py` — gera SEMPRE as duas
-# versões, com e sem esta camada). Raios reais vêm de `v.fauna_zones`
-# (`fauna_zonation()` em fumarola_field.py, já calculado pra todo vent,
-# nunca usado na cena 3D até agora). Cores calibradas contra fotos reais
-# de campos hidrotermais: tapete bacteriano (Beggiatoa-like) branco-
-# amarelado cobrindo o substrato bem perto do orifício; mexilhões
-# formam uma crosta escura azul-petróleo em faixa ao redor, não até a
-# própria abertura (fica coberta pelo tapete).
-_BACTERIAL_MAT_TINT = np.array([0.88, 0.85, 0.60])
-_MUSSEL_BED_TINT = np.array([0.14, 0.16, 0.20])
-_TUBEWORM_BASE_TINT = np.array([0.90, 0.89, 0.85])
-_TUBEWORM_TIP_TINT = np.array([0.55, 0.08, 0.10])
-_SHRIMP_TINT = np.array([0.85, 0.72, 0.68])
-# Fatores de escala VISUAL (não físicos) aplicados ao RAIO de renderização
-# da fauna — ver uso em `_terrain_base_tint` (manchas de cor no terreno) e
-# no loop de vents em `render_artistic_scene` (tufos de verme/camarão).
-# Usuário reportou que as versões com/sem fauna "não fazem a menor
-# diferença": os raios reais (~0.2-5m) ficavam pequenos demais pra ler
-# contra o quadro mais aberto (ver `_PHOTO_NEIGHBORHOOD_R`) e, no caso de
-# tufos/camarão especificamente, o raio de zona NEM estava sendo escalado
-# antes (só as manchas de cor do terreno eram) — bug real, não só falta
-# de contraste. Dois fatores em vez de um: tapete/mexilhões já tinham o
-# maior raio real (até 5m) — um fator agressivo os deixaria enormes/
-# artificiais; tufos/camarão têm raio real bem menor (até 2.5-3m) e
-# precisam de mais escala pra virar um aglomerado reconhecível no quadro.
-_FAUNA_COLOR_SCALE_M = 2.4
-_FAUNA_OBJECT_SCALE_M = 4.5
-
 
 _texture_cache: dict = {}
 
@@ -461,16 +432,7 @@ def _terrain_base_tint(Xq: np.ndarray, Yq: np.ndarray, vents: List, vent_xy_m,
     array pré-amostrado numa grade específica. NÃO inclui o ruído de
     albedo por-vértice (`tint_noise`) nem a mistura com neblina — isso
     fica a cargo de cada chamador, pode divergir sem risco de costura
-    (jitter fino demais pro olho notar diferença de fase).
-
-    NÃO inclui mais tapete bacteriano/leito de mexilhões (removido —
-    ver `_build_fauna_crust_mesh`): tingir esta cor multiplicada sobre a
-    foto de rocha ESCURA nunca conseguia dar um branco/pálido vívido
-    (multiplicar por uma textura escura só escurece mais, mesma
-    limitação matemática já documentada pra diferenciação de chaminé
-    por tipo) — o tapete saía cinza-escuro, indistinguível de sombra
-    comum ("ou é tudo uma sombra preta", relato direto do usuário).
-    Fauna com cor de verdade agora é uma malha PRÓPRIA sem textura."""
+    (jitter fino demais pro olho notar diferença de fase)."""
     stain = np.zeros_like(Xq)
     for (vx, vy), v in zip(vent_xy_m, vents):
         radius = 8.0 + v.chimney_height_m * 1.5
@@ -606,200 +568,10 @@ def _make_boulder_mesh(center_x: float, center_y: float, ground_z: float, radius
     return Xb, Yb, Zb, Theta / (2 * np.pi), Phi_frac
 
 
-def _tubeworm_tuft_mesh(base_x: float, base_y: float, ground_height_fn,
-                         rng: np.random.Generator, zone_radius_m: float):
-    """Malha combinada (`pv.merge`, um único ator em vez de um `add_mesh`
-    por verme) de 1-3 AGLOMERADOS de vermes tubulares (Riftia-like)
-    dentro da zona real de ocorrência (`zone_radius_m` =
-    `v.fauna_zones["tubeworm"]`, de `fauna_zonation()` em
-    fumarola_field.py). Colônias reais crescem em tufos densos e
-    discretos, não espalhadas uniformemente pela zona inteira — por isso
-    sorteia posições de TUFO dentro do raio e concentra os vermes perto
-    de cada uma.
-
-    POUCOS tubos GROSSOS, não muitos finos: um enquadramento típico
-    mostra dezenas de metros por quadro, então hastes de ~1-6cm de raio
-    (fisicamente corretas) viravam ruído sub-pixel — "várias bolinhas"
-    em vez de um tufo reconhecível (relato direto do usuário depois da
-    primeira versão). Cada verme individual continua uma haste fina e
-    levemente curva (`pv.Spline().tube()`), clara na base (tubo
-    quitinoso branco) escurecendo pra vermelho-escuro na ponta (plumas
-    branquiais expostas), mas agora só 3-7 por tufo, bem mais grossas —
-    e cada tufo ganha uma base arredondada própria (reaproveita a
-    técnica de bojos gaussianos de `_make_boulder_mesh`, cor de tubo)
-    pra ancorar visualmente os vermes ao chão em vez de "flutuarem".
-
-    `ground_height_fn(x,y)` é chamado UMA VEZ POR TUFO (não uma altura
-    única passada de fora) — bug real achado testando: com
-    `_FAUNA_OBJECT_SCALE_M` grande, o raio de zona escalado pode chegar
-    a dezenas de metros, então um tufo podia cair vários metros longe
-    do vent original, onde o terreno real já está numa altura bem
-    diferente da altura do próprio vent — usar essa altura errada fazia
-    o tufo "flutuar" acima ou afundar abaixo do chão de verdade ali.
-    Devolve `None` se `zone_radius_m<=0` (dict sem a chave)."""
-    if zone_radius_m <= 0:
-        return None
-    n_clusters = int(rng.integers(1, 4))
-    meshes = []
-    for _ in range(n_clusters):
-        # Fração reduzida (era 0.2-0.85) — tufos ficam mais colados à
-        # base da própria chaminé, tanto por realismo (colônias reais
-        # crescem bem perto da margem de fluxo difuso) quanto pra evitar
-        # que o raio de zona já escalado (`_FAUNA_OBJECT_SCALE_M`) jogue
-        # o tufo muito longe, sobre um trecho de terreno com relevo
-        # bem diferente do da própria chaminé.
-        cluster_dist = zone_radius_m * rng.uniform(0.1, 0.45)
-        cluster_th = rng.uniform(0, 2 * np.pi)
-        clx = base_x + cluster_dist * np.cos(cluster_th)
-        cly = base_y + cluster_dist * np.sin(cluster_th)
-        cluster_base_z = ground_height_fn(clx, cly)
-        cluster_spread = rng.uniform(0.18, 0.4)
-
-        # Base arredondada (mesma técnica dos blocos de detrito, cor
-        # clara de tubo quitinoso) — ancora o tufo, evita a leitura de
-        # "hastes flutuando no vazio" da primeira versão.
-        base_radius = cluster_spread * rng.uniform(0.7, 1.1)
-        Xb, Yb, Zb, Ub, Vb = _make_boulder_mesh(clx, cly, cluster_base_z, base_radius, rng, n_theta=10, n_phi=7)
-        base_mesh = pv.StructuredGrid(Xb, Yb, Zb)
-        base_mesh["colors"] = np.clip(
-            _TUBEWORM_BASE_TINT[np.newaxis, :] * (1 + 0.08 * rng.normal(0, 1, (Xb.size, 1))), 0, 1)
-        meshes.append(base_mesh)
-
-        n_worms = int(rng.integers(3, 8))
-        for _ in range(n_worms):
-            r = cluster_spread * rng.uniform(0, 1) ** 0.5
-            th = rng.uniform(0, 2 * np.pi)
-            wx = clx + r * np.cos(th)
-            wy = cly + r * np.sin(th)
-            h = rng.uniform(0.45, 1.3)
-            lean_dir = rng.uniform(0, 2 * np.pi)
-            lean_amount = rng.uniform(0.05, 0.2) * h
-            curve_amp = rng.uniform(-0.15, 0.15)
-            t = np.linspace(0, 1, 6)
-            perp = lean_dir + np.pi / 2
-            px = wx + lean_amount * t * np.cos(lean_dir) + curve_amp * np.sin(t * np.pi) * np.cos(perp)
-            py = wy + lean_amount * t * np.sin(lean_dir) + curve_amp * np.sin(t * np.pi) * np.sin(perp)
-            pz = cluster_base_z + h * t
-            pts = np.column_stack([px, py, pz])
-            spline = pv.Spline(pts, 10)
-            spline["hfrac"] = np.linspace(0, 1, spline.n_points)
-            # Raio real de um tubo individual é ~5-15mm; engrossado bem
-            # mais que na primeira versão (~3-6cm) — poucos tubos
-            # GROSSOS (~10-22cm) leem como uma forma real à distância
-            # típica de enquadramento, muitos finos só viravam poeira.
-            tube_radius = rng.uniform(0.10, 0.22)
-            tube = spline.tube(radius=tube_radius, n_sides=7)
-            # Vermelho concentrado perto da ponta (expoente >1), não um
-            # gradiente linear — na vida real só a pluma branquial na
-            # extremidade é vermelha, o tubo em si é claro quase até lá.
-            hf = np.clip(tube["hfrac"], 0, 1) ** 2.2
-            color = (_TUBEWORM_BASE_TINT[np.newaxis, :] * (1 - hf[:, np.newaxis])
-                     + _TUBEWORM_TIP_TINT[np.newaxis, :] * hf[:, np.newaxis])
-            tube["colors"] = color
-            meshes.append(tube)
-    return pv.merge(meshes) if meshes else None
-
-
-def _shrimp_swarm_points(base_x: float, base_y: float, ground_height_arr_fn,
-                          rng: np.random.Generator, zone_radius_m: float):
-    """Pontos de um enxame de camarões (Rimicaris-like) sobre o substrato
-    perto do orifício, dentro do raio real `zone_radius_m` =
-    `v.fauna_zones["shrimp_swarm"]` — em fotos reais lê como uma
-    salpicadura DENSA de pontos pálidos sobre a rocha escura, então
-    (ao contrário da fumaça) pontos opacos nítidos são apropriados aqui,
-    não um artefato a esconder. A primeira versão espalhava poucos
-    pontos (150-400) pelo raio de zona inteiro (já escalado por
-    `_FAUNA_OBJECT_SCALE_M`) — resultado esparso demais, lia como "umas
-    bolinhas soltas" em vez de um enxame de verdade (relato direto do
-    usuário). Concentra bem mais pontos (600-1400) num raio efetivo
-    MENOR que o raio de zona (`r**1.8` em vez de `r**0.5` — concentra
-    perto do centro), formando uma mancha densa reconhecível em vez de
-    ruído espalhado. Altura de cada ponto vem de `ground_height_arr_fn`
-    (VETORIZADA, chão real incluindo o hero patch) reavaliada em CADA
-    ponto, não uma altura única do vent — o raio efetivo ainda chega a
-    vários metros com `_FAUNA_OBJECT_SCALE_M` grande, e o terreno real
-    pode variar nessa distância (mesmo bug de altura já corrigido nos
-    tufos de verme). Devolve `None` se `zone_radius_m<=0` (dict sem a
-    chave — só ~60% dos black smokers têm essa zona, ver
-    `fauna_zonation`)."""
-    if zone_radius_m <= 0:
-        return None
-    n_points = int(rng.integers(600, 1400))
-    effective_radius = zone_radius_m * 0.55
-    r = effective_radius * rng.uniform(0, 1, n_points) ** 1.8
-    th = rng.uniform(0, 2 * np.pi, n_points)
-    x = base_x + r * np.cos(th)
-    y = base_y + r * np.sin(th)
-    z = ground_height_arr_fn(x, y) + rng.uniform(0.02, 0.3, n_points)
-    jitter = 1.0 + 0.15 * rng.normal(0, 1, (n_points, 1))
-    colors = np.clip(_SHRIMP_TINT[np.newaxis, :] * jitter, 0, 1)
-    return x, y, z, colors
-
-
-def _build_fauna_crust_mesh(center_x: float, center_y: float, r_inner: float, r_outer: float,
-                             ground_height_arr_fn, color: np.ndarray, rng: np.random.Generator,
-                             n_theta: int = 22, n_r: int = 6):
-    """Malha rasteira (disco se `r_inner=0`, anel caso contrário) pra
-    tapete bacteriano/leito de mexilhões, acompanhando o CHÃO REAL
-    (`ground_height_arr_fn`, inclui o hero patch fino perto da câmera)
-    — cor SÓLIDA final, SEM textura fotográfica multiplicada por cima.
-
-    Isto substitui a primeira versão (tingimento por-vértice misturado
-    na cor do terreno ANTES de multiplicar pela foto de rocha): a foto
-    escolhida é escura o bastante que nenhum tingimento a clareia até
-    um branco/pálido vívido (mesma limitação matemática já documentada
-    pra diferenciação de chaminé por tipo — multiplicar só ESCURECE),
-    então o tapete saía cinza-escuro, indistinguível de sombra comum —
-    "ou é tudo uma sombra preta", relato direto do usuário. Uma malha
-    PRÓPRIA sem `texture=` usa a cor do vértice como cor final de
-    verdade, sem esse teto.
-
-    Contorno externo levemente irregular (2 harmônicos de fase
-    aleatória) em vez de um círculo perfeito — evita a leitura
-    "desenhada"/artificial de uma forma geométrica exata.
-
-    A altura de cada vértice NÃO segue o relevo real bruto sem limite:
-    perto de fumarolas grandes o terreno real (heightmap + patch fino de
-    rugosidade) pode ter encostas bem íngremes por baixo de um disco de
-    só 1-2m — seguir isso ao pé da letra criava "paredes" quase
-    verticais de cor sólida entre vértices adjacentes, lendo como
-    estilhaços/lascas planas flutuando (achado visual real, não só
-    teórico, testando esta função). A altura de cada vértice é
-    GRAMPEADA a um desvio pequeno em torno da altura do CENTRO do disco
-    — a crosta ainda ondula um pouco com o micro-relevo local, mas nunca
-    escala uma encosta inteira."""
-    theta = np.linspace(0, 2 * np.pi, n_theta)
-    phase1, phase2 = rng.uniform(0, 2 * np.pi, 2)
-    edge_wobble = 1.0 + 0.12 * np.sin(2 * theta + phase1) + 0.08 * np.sin(5 * theta + phase2)
-    r_frac = np.linspace(0, 1, max(n_r, 2))
-    Theta, Rf = np.meshgrid(theta, r_frac)
-    Router = r_outer * edge_wobble[np.newaxis, :]
-    # Piso pequeno no raio interno pro caso disco (`r_inner=0`) — sem
-    # isso, TODOS os pontos de theta na primeira linha colapsam no exato
-    # mesmo ponto (pólo degenerado de malha estruturada), o que podia
-    # gerar normais/sombreamento instáveis com `smooth_shading=True`.
-    r_inner_eff = r_inner if r_inner > 0 else max(r_outer * 0.04, 0.03)
-    R = r_inner_eff + (Router - r_inner_eff) * Rf
-    X = center_x + R * np.cos(Theta)
-    Y = center_y + R * np.sin(Theta)
-    center_h = float(ground_height_arr_fn(np.array([center_x]), np.array([center_y]))[0])
-    raw_h = ground_height_arr_fn(X, Y)
-    max_deviation_m = 0.18
-    Z = center_h + np.clip(raw_h - center_h, -max_deviation_m, max_deviation_m) + 0.02
-
-    noise = 1.0 + 0.12 * rng.normal(0, 1, X.shape)
-    colors = np.clip(color[np.newaxis, np.newaxis, :] * noise[..., np.newaxis], 0, 1)
-
-    mesh = pv.StructuredGrid(X, Y, Z)
-    mesh["colors"] = colors.transpose(1, 0, 2).reshape(-1, 3)
-    return mesh
-
-
 def render_artistic_scene(terrain: np.ndarray, vents: List, out_path: str,
                            domain_size_m: float, local_relief_m: float, seed: int,
                            resolution: Tuple[int, int] = (2400, 1800),
-                           view: Optional[Tuple[float, float, float]] = None,
-                           include_fauna: bool = False) -> str:
+                           view: Optional[Tuple[float, float, float]] = None) -> str:
     """
     Renderiza `out_path` (PNG) com aparência fotográfica de um campo de
     fumarolas real, a partir dos MESMOS dados procedurais/físicos
@@ -811,14 +583,6 @@ def render_artistic_scene(terrain: np.ndarray, vents: List, out_path: str,
     `view`, se fornecido, é `(elev_deg, azim_deg, distance_mult)` para
     posicionar a câmera manualmente; por padrão usa um ângulo baixo
     "estilo ROV" olhando para o centróide das fumarolas.
-
-    `include_fauna`: sobrepõe tapete bacteriano/leito de mexilhões
-    (manchas de cor no terreno), tufos de vermes tubulares e enxames de
-    camarão usando os raios REAIS de `v.fauna_zones` (calculados por
-    `fauna_zonation()` em fumarola_field.py pra todo vent, nunca usados
-    na cena 3D antes desta opção existir). `fumarola_field.py` chama
-    esta função DUAS vezes por run quando `--artistic-render` está
-    ativo (uma com, uma sem esta camada) — ver `execute_run`.
     """
     size = terrain.shape[0]
     meters_per_cell = domain_size_m / (size - 1)
@@ -1055,17 +819,6 @@ def render_artistic_scene(terrain: np.ndarray, vents: List, out_path: str,
             np.array([x_m]), np.array([y_m]), cx, cy, hero_patch_radius, hero_noise_phases)[0])
         return coarse + extra
 
-    def _ground_height_arr(Xa: np.ndarray, Ya: np.ndarray) -> np.ndarray:
-        """Versão VETORIZADA de `_ground_height` (evita uma chamada
-        Python por vértice) — usada pra malhas de área maior como a
-        crosta de fauna (`_build_fauna_crust_mesh`), que teriam dezenas
-        de vértices cada."""
-        col_idx = Xa / meters_per_cell
-        row_idx = Ya / meters_per_cell
-        coarse = scipy.ndimage.map_coordinates(Z, [row_idx, col_idx], order=1, mode="nearest")
-        extra = _hero_patch_extra_height(Xa, Ya, cx, cy, hero_patch_radius, hero_noise_phases)
-        return coarse + extra
-
     # --- Detritos: blocos de rocha soltos ---
     # Mesmo com deslocamento de micro-relevo + textura no terreno, uma
     # superfície contínua ainda lê como "lisa" de longe — fragmentos
@@ -1212,71 +965,6 @@ def render_artistic_scene(terrain: np.ndarray, vents: List, out_path: str,
                     srgb[mask],
                     float(np.mean(ssizes[mask])),
                 ))
-
-        # --- Fauna quimiossintética (opt-in via `include_fauna`) ---
-        # Tufos de vermes tubulares e enxames de camarão, ambos com
-        # raio real de `v.fauna_zones` — só existem no dict quando as
-        # condições reais (H2S/tipo de vent) de `fauna_zonation()`
-        # favorecem essa comunidade, então nem todo vent ganha as duas
-        # (ou nenhuma) camada. Geometria/pontos OPACOS, adicionados
-        # direto no `plotter` principal (sem o compositing de desfoque
-        # da fumaça — não são translúcidos, são objetos discretos como
-        # os blocos de rocha).
-        if include_fauna:
-            fz = v.fauna_zones
-            # Tapete bacteriano/leito de mexilhões: malhas rasteiras
-            # PRÓPRIAS sem textura fotográfica (`_build_fauna_crust_mesh`)
-            # — não mais tingimento sobre a cor do terreno (essa
-            # abordagem multiplicava a cor pela foto de rocha ESCURA, que
-            # nunca clareia até um tom pálido vívido, só escurece mais;
-            # o tapete saía cinza-escuro indistinguível de sombra comum,
-            # "ou é tudo uma sombra preta" no relato direto do usuário).
-            r_mat = fz.get("bacterial_mat", 0.0) * _FAUNA_COLOR_SCALE_M
-            if r_mat > 0:
-                mat_mesh = _build_fauna_crust_mesh(vx, vy, 0.0, r_mat, _ground_height_arr,
-                                                    _BACTERIAL_MAT_TINT, rng_v)
-                mat_dist = dist_from_cam(*mat_mesh.points.T)
-                mat_mesh["colors"] = _fog_blend(mat_mesh["colors"], mat_dist, fog_scale_m)
-                plotter.add_mesh(mat_mesh, scalars="colors", rgb=True, smooth_shading=True,
-                                  pbr=False, ambient=0.38, diffuse=0.85, specular=0.05)
-
-            r_mussel = fz.get("mussel_bed", 0.0) * _FAUNA_COLOR_SCALE_M
-            if r_mussel > 0:
-                band_center = r_mussel * 0.65
-                band_half_width = max(r_mussel * 0.45, 0.3)
-                mussel_mesh = _build_fauna_crust_mesh(
-                    vx, vy, max(band_center - band_half_width, 0.0), band_center + band_half_width,
-                    _ground_height_arr, _MUSSEL_BED_TINT, rng_v)
-                mussel_dist = dist_from_cam(*mussel_mesh.points.T)
-                mussel_mesh["colors"] = _fog_blend(mussel_mesh["colors"], mussel_dist, fog_scale_m)
-                plotter.add_mesh(mussel_mesh, scalars="colors", rgb=True, smooth_shading=True,
-                                  pbr=False, ambient=0.25, diffuse=0.8, specular=0.25, specular_power=12)
-
-            # `_FAUNA_OBJECT_SCALE_M` aplicado ao RAIO DE ZONA aqui — antes
-            # só as manchas de cor do terreno eram escaladas, o raio de
-            # posicionamento dos tufos/camarão continuava no valor real
-            # pequeno (~0.3-3m), tipicamente enterrado dentro do raio das
-            # pilhas de detrito ao redor da própria chaminé (bug real por
-            # trás do "com/sem fauna não faz diferença").
-            tuft_radius = v.fauna_zones.get("tubeworm", 0.0) * _FAUNA_OBJECT_SCALE_M
-            tuft = _tubeworm_tuft_mesh(vx, vy, _ground_height, rng_v, tuft_radius)
-            if tuft is not None:
-                tuft_dist = dist_from_cam(*tuft.points.T)
-                tuft["colors"] = _fog_blend(tuft["colors"], tuft_dist, fog_scale_m)
-                plotter.add_mesh(tuft, scalars="colors", rgb=True, smooth_shading=True,
-                                  pbr=False, ambient=0.3, diffuse=0.9, specular=0.1)
-
-            shrimp_radius = v.fauna_zones.get("shrimp_swarm", 0.0) * _FAUNA_OBJECT_SCALE_M
-            shrimp = _shrimp_swarm_points(vx, vy, _ground_height_arr, rng_v, shrimp_radius)
-            if shrimp is not None:
-                shx, shy, shz, shcolors = shrimp
-                shdist = dist_from_cam(shx, shy, shz)
-                shcolors = _fog_blend(shcolors, shdist, fog_scale_m)
-                shrimp_cloud = pv.PolyData(np.column_stack([shx, shy, shz]))
-                shrimp_cloud["colors"] = shcolors
-                plotter.add_mesh(shrimp_cloud, scalars="colors", rgb=True, style="points",
-                                  render_points_as_spheres=False, point_size=3.5,
-                                  opacity=1.0, lighting=False)
 
     # --- "Neve marinha": partículas retroespalhando a luz do "ROV",
     # amostradas a partir da MESMA seed do campo (reprodutível). Ao

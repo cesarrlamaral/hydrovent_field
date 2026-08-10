@@ -298,7 +298,6 @@ class HydroventGUI:
             ("png_3d_path", t("img_3d")),
             ("png_truescale_path", t("img_truescale")),
             ("png_artistic_path", t("img_artistic")),
-            ("png_artistic_fauna_path", t("img_artistic_fauna")),
             ("png_hotspots_path", t("img_hotspots")),
             ("png_acoustic_path", t("img_acoustic")),
             ("png_module_dilution_path", t("img_module_dilution")),

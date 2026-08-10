@@ -149,8 +149,8 @@ STRINGS: dict[str, dict[str, str]] = {
         "pt": "Também gerar cena em escala verdadeira",
     },
     "chk_artistic_render": {
-        "en": "Also generate artistic view (2 images, with/without fauna; non-scientific, requires pyvista)",
-        "pt": "Também gerar visualização artística (2 imagens, com/sem fauna; não-científica, requer pyvista)",
+        "en": "Also generate artistic view (non-scientific, requires pyvista)",
+        "pt": "Também gerar visualização artística (não-científica, requer pyvista)",
     },
     "label_z_exag": {"en": "Vertical exaggeration (z_exag):", "pt": "Exagero vertical (z_exag):"},
     "label_chimney_scale": {"en": "Chimney scale:", "pt": "Escala das chaminés:"},
@@ -261,8 +261,7 @@ STRINGS: dict[str, dict[str, str]] = {
     "img_2d": {"en": "2D map", "pt": "Mapa 2D"},
     "img_3d": {"en": "3D scene (stylized)", "pt": "Cena 3D (estilizada)"},
     "img_truescale": {"en": "3D scene (true scale)", "pt": "Cena 3D (escala verdadeira)"},
-    "img_artistic": {"en": "Artistic view, no fauna (non-scientific)", "pt": "Visualização artística, sem fauna (não-científica)"},
-    "img_artistic_fauna": {"en": "Artistic view, with fauna (non-scientific)", "pt": "Visualização artística, com fauna (não-científica)"},
+    "img_artistic": {"en": "Artistic view (non-scientific)", "pt": "Visualização artística (não-científica)"},
     "img_hotspots": {"en": "Prebiotic hotspots", "pt": "Hotspots prebióticos"},
     "img_acoustic": {
         "en": "Acoustic field (exploratory hypothesis)",
