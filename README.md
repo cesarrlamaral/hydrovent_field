@@ -134,15 +134,8 @@ run_qa.py               Automated per-run integrity QA (hard errors vs. statisti
 gui.py / i18n.py        Desktop GUI and its PT/EN string tables
 tests/                  pytest suite
 docs/PHYSICS_MODEL.md   Full physics documentation: every equation, citation, benchmark
-docs/CITATIONS_TO_VERIFY.md   Citation-verification audit trail
 data/chladni_bench_2021/      Bench-scale acoustic-patterning dataset + reanalysis
 ```
-
-Not included in this public repository: `report.py` and `relatorios_admin.py`
-(a manuscript-drafting/report generator with author-specific interpretive
-text and a password-gated administrator mode — not general-purpose software),
-and `biblios/`/`paper/` (third-party reference PDFs and in-progress manuscript
-drafts). See `.gitignore`.
 
 ## Citing
 
