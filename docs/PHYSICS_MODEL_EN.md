@@ -994,13 +994,8 @@ has p_Holm=8.3×10⁻⁷ (survives Holm) while
 have literally contradicted the very numbers it printed alongside it.
 Fixed by explicitly separating "also significant" predictors (survive
 Holm, but with a smaller coefficient than the dominant one) from
-"not significant" ones. Two new citations added to `REFERENCES_EN`
-that should have been there since the method started being cited in
-the text (Iman & Conover 1979; Holm 1979) — confirmed both convert
-correctly to the PLOS ONE generator's numbered Vancouver format,
-without landing in the `[VERIFY VANCOUVER FORMAT]` list (that list
-already had 2 pre-existing entries — Urick 1983, a book, and
-Lineweaver & Davis 2002 — unrelated to this change).
+"not significant" ones. Two citations for the method (Iman & Conover
+1979; Holm 1979) were checked for correct formatting.
 
 **Why the bench analysis (Phase 5, `data/chladni_bench_2021/
 analysis.py`) did NOT get the same correction**: it is the only other

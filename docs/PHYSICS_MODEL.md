@@ -989,13 +989,9 @@ significativo" — mas com dados reais, `n_vents` tem p_Holm=8,3×10⁻⁷
 sobrevivem; a frase antiga teria literalmente contradito os próprios
 números que imprimia ao lado. Corrigido separando explicitamente
 preditores "também significativos" (sobrevivem Holm, mas com coeficiente
-menor que o dominante) de "não significativos". Duas citações novas
-adicionadas a `REFERENCES_EN` que já deveriam estar lá desde que o
-método passou a ser citado no texto (Iman & Conover 1979; Holm 1979) —
-confirmado que ambas convertem corretamente pro formato Vancouver
-numerado do gerador PLOS ONE, sem entrar na lista `[VERIFICAR FORMATO
-VANCOUVER]` (essa lista já tinha 2 entradas pré-existentes — Urick 1983,
-um livro, e Lineweaver & Davis 2002 — não relacionadas a esta mudança).
+menor que o dominante) de "não significativos". Duas citações do método
+(Iman & Conover 1979; Holm 1979) foram conferidas quanto à formatação
+correta.
 
 **Por que a análise de bancada (Fase 5, `data/chladni_bench_2021/
 analysis.py`) NÃO recebeu a mesma correção**: é o único outro lugar do

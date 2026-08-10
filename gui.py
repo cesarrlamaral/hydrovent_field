@@ -248,9 +248,8 @@ class ZoomPanCanvas(ttk.Frame):
 
 # --------------------------------------------------------------------------
 # Protocolo "Experiment Run" — pedido do usuário 2026-08-09: travar TODO
-# parâmetro que definiu os ensembles reais usados na análise submetida à
-# Astrobiology (outputs/experimento_260807_021219 e
-# experimento_260808_111609, ambos molécula=nucleotideos/acústica=both/
+# parâmetro que definiu os ensembles reais usados na análise de
+# referência do autor (molécula=nucleotideos/acústica=both/
 # sensitivity-sweep, bacia atlantic), não só molécula+modo acústico como
 # antes — pra qualquer pessoa que clique "Experiment Run" reproduzir
 # exatamente o mesmo protocolo científico, mesmo que os defaults do
@@ -701,7 +700,7 @@ class HydroventGUI:
         locked = self.v_experiment_mode.get() == "experiment_run"
         if locked:
             # Trava TODO parâmetro do protocolo científico real usado nos
-            # ensembles submetidos — ver _EXPERIMENT_RUN_PROTOCOL — não só
+            # ensembles de referência — ver _EXPERIMENT_RUN_PROTOCOL — não só
             # molécula/modo acústico como antes. Seed, nº de runs, imagens,
             # paralelismo e visualização 3D continuam livres (ver comentário
             # da constante).

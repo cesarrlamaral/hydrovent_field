@@ -62,14 +62,14 @@ STRINGS: dict[str, dict[str, str]] = {
     "frame_experiment_mode": {"en": "Experiment mode", "pt": "Modo do experimento"},
     "experiment_mode_desc": {
         "en": ("\"Experiment run\" locks every parameter of the real protocol used for the "
-               "study submitted to Astrobiology (molecule class, acoustic mode, terrain/plume-"
+               "author's reference study (molecule class, acoustic mode, terrain/plume-"
                "physics parameters, prebiotic modules, sensitivity sweep) — so anyone can "
                "reproduce the same ensemble configuration. Only seed, number of runs, image "
                "generation, parallelism, output location and 3D-visualization options remain "
                "free (they don't affect the scientific results). \"Exploratory\" unlocks all "
                "options below."),
         "pt": ("\"Experiment run\" trava todo parâmetro do protocolo real usado no estudo "
-               "submetido à Astrobiology (classe de molécula, modo acústico, parâmetros de "
+               "de referência do autor (classe de molécula, modo acústico, parâmetros de "
                "terreno/física da pluma, módulos prebióticos, varredura de sensibilidade) — "
                "assim qualquer pessoa reproduz a mesma configuração de ensemble. Só seed, nº "
                "de runs, geração de imagem, paralelismo, local de saída e opções de "

@@ -8,7 +8,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - "Experiment run" mode in the GUI now locks the *entire* real protocol
-  used for the ensembles behind the Astrobiology submission (terrain
+  used for the author's reference ensembles (terrain
   generation, plume-physics parameters, prebiotic modules, basin,
   sensitivity sweep), not just molecule class and acoustic mode as
   before — so anyone selecting "Experiment run" reproduces the same
@@ -21,8 +21,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   location, and 3D-visualization options remain free, since they don't
   affect the scientific result — run count specifically switches the
   execution mode to "ensemble" (single/vardecomp don't use it the same
-  way) and pre-fills it with 1000 (the larger of the two paper
-  ensembles) as a starting suggestion, editable like before.
+  way) and pre-fills it with 1000 as a starting suggestion, editable
+  like before.
 - GUI now exposes every remaining CLI-only option: pore aspect ratio
   (`--pore-aspect-ratio`), custom acoustic particle radius/density
   (`--acoustic-particle-radius-um`/`--acoustic-particle-density`, enabled

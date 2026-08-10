@@ -144,8 +144,7 @@ data/chladni_bench_2021/      Dataset de teste de bancada acústico + reanálise
 ## Como citar
 
 Se você usar este software, cite o repositório (um arquivo `CITATION.cff`
-está incluído para o botão "Cite this repository" do GitHub). Um release
-citável via JOSS/Zenodo está planejado para uma versão futura.
+está incluído para o botão "Cite this repository" do GitHub).
 
 ## Licença
 

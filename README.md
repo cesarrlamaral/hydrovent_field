@@ -140,8 +140,7 @@ data/chladni_bench_2021/      Bench-scale acoustic-patterning dataset + reanalys
 ## Citing
 
 If you use this software, please cite the repository (a `CITATION.cff` file
-is included for GitHub's "Cite this repository" button). A citable
-JOSS/Zenodo release is planned for a future version.
+is included for GitHub's "Cite this repository" button).
 
 ## License
 
