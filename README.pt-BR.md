@@ -138,15 +138,8 @@ run_qa.py               QA automatizada de integridade por run (erros inequívoc
 gui.py / i18n.py        GUI desktop e suas tabelas de strings PT/EN
 tests/                  Suíte pytest
 docs/PHYSICS_MODEL.md   Documentação física completa: cada equação, citação, benchmark
-docs/CITATIONS_TO_VERIFY.md   Trilha de auditoria de verificação de citações
 data/chladni_bench_2021/      Dataset de teste de bancada acústico + reanálise
 ```
-
-Não incluídos neste repositório público: `report.py` e `relatorios_admin.py`
-(um gerador de relatório/rascunho de manuscrito com texto interpretativo
-específico do autor e um modo administrador protegido por senha — não é
-software de propósito geral), e `biblios/`/`paper/` (PDFs de referência de
-terceiros e rascunhos de manuscrito em andamento). Ver `.gitignore`.
 
 ## Como citar
 
