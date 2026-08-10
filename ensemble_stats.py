@@ -82,7 +82,7 @@ def _bootstrap_point_estimates(boot: np.ndarray, arr_size: int) -> dict:
 def describe(arr: np.ndarray, n_bootstrap: int = 0, rng: Optional[np.random.Generator] = None) -> dict:
     """
     Descritivas de `arr`. Além de n/mean/std/min/median/max (chaves
-    PRÉ-EXISTENTES, semântica inalterada — GUI e report.py já leem essas
+    PRÉ-EXISTENTES, semântica inalterada — a GUI já lê essas
     diretamente), adiciona estatísticas ROBUSTAS: distribuições deste
     projeto são conhecidamente caudal-pesadas (altura de chaminé de longa
     cauda, evento raro de Gor'kov — ver docs/PHYSICS_MODEL.md §7.8.1), e
@@ -130,8 +130,8 @@ def describe(arr: np.ndarray, n_bootstrap: int = 0, rng: Optional[np.random.Gene
     contínua (`mean_ci95`, `median_ci95`, `std_ci95`, `q1_ci95`,
     `q3_ci95`, `iqr_ci95`, `mad_ci95`, `mad_scaled_ci95`,
     `skewness_ci95`, `kurtosis_ci95`, `mean_median_gap_over_iqr_ci95`) —
-    até aqui só a fração de eventos raros tinha IC (`_wilson_ci95` em
-    report.py, para a proporção binária), toda estatística CONTÍNUA era
+    até aqui só a fração de eventos raros tinha IC (intervalo de Wilson,
+    para a proporção binária), toda estatística CONTÍNUA era
     reportada como número nu, sem incerteza. Totalmente vetorizado (uma
     única matriz `(n_bootstrap, n)` de reamostragens, sem laço Python) —
     necessário porque arrays pooled de ensembles grandes têm dezenas de

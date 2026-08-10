@@ -28,9 +28,8 @@ import numpy as np
 
 
 # --------------------------------------------------------------------------
-# 1. IC de Wilson — reimplementado aqui (não importado de report.py, que é
-#    gitignored e não existe num clone público do repositório; este
-#    módulo é tracked e precisa funcionar sozinho).
+# 1. IC de Wilson — reimplementado aqui (este módulo é tracked e precisa
+#    funcionar sozinho num clone público do repositório).
 # --------------------------------------------------------------------------
 
 _Z95 = 1.959963984540054  # scipy.stats.norm.ppf(0.975), constante — ver teste de validação

@@ -10,14 +10,17 @@ outputs_*/
 biblios/
 paper/
 
-# Gerador de relatório/paper e o script administrativo que o expõe: contêm
-# texto de interpretação científica específico do autor (não é software
-# genérico) e um login protegido por senha (hash) — deliberadamente mantidos
-# fora do histórico público. Ver docs/PHYSICS_MODEL.md/CITATIONS_TO_VERIFY.md
-# para o restante da documentação, que é pública.
+# Ferramentas pessoais de preparo de manuscrito (Astrobiology/PLOS/JOSS),
+# não parte do hydrovent_field: gerador de relatório/paper e o script
+# administrativo que o expõe (texto de interpretação científica específico
+# do autor, login protegido por senha), o exportador de .docx que eles
+# usam, e a trilha de auditoria de citações do texto do manuscrito —
+# deliberadamente mantidos fora do histórico público.
 report.py
 relatorios_admin.py
+docx_export.py
 tests/test_report.py
+docs/CITATIONS_TO_VERIFY.md
 
 # Texto das normas de autoria da SAGE/Astrobiology colado integralmente de
 # journals.sagepub.com/author-instructions/ASB — conteúdo de terceiros

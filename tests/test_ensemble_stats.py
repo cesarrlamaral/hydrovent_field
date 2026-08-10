@@ -2,7 +2,7 @@
 Testes de `ensemble_stats.py` — primeira cobertura de teste dedicada
 deste módulo (extraído de gui.py numa sessão anterior sem ganhar testes
 próprios na época). Foco em `describe()`: as chaves PRÉ-EXISTENTES
-(n/mean/std/min/median/max, já lidas diretamente por gui.py/report.py)
+(n/mean/std/min/median/max, já lidas diretamente por gui.py)
 precisam manter semântica idêntica; as novas (q1/q3/iqr/mad/mad_scaled/
 skewness/kurtosis/mean_median_gap_over_iqr) são a extensão desta sessão.
 
@@ -137,8 +137,8 @@ def test_mean_median_gap_is_zero_when_iqr_is_zero():
 
 def test_bootstrap_is_off_by_default_no_ci_keys():
     """n_bootstrap=0 (padrão) precisa continuar byte-idêntico ao
-    comportamento pré-bootstrap — nenhum consumidor existente (GUI,
-    report.py) deveria ver chaves novas sem pedir."""
+    comportamento pré-bootstrap — nenhum consumidor existente (GUI)
+    deveria ver chaves novas sem pedir."""
     arr = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
     result = es.describe(arr)
     assert "mean_ci95" not in result

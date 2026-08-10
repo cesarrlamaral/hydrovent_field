@@ -100,8 +100,7 @@ def test_report_contains_descriptive_stats_and_figure_and_runs_table(tmp_path):
 
 def test_report_does_not_contain_discussion_or_article_framing(tmp_path):
     """Restrição explícita do usuário: nada de discussão/hipótese/moldura
-    de artigo — esse conteúdo vive só no report.py gitignored/admin.
-    Checa seções/títulos de estilo artigo (não uma busca ingênua por
+    de artigo neste relatório. Checa seções/títulos de estilo artigo (não uma busca ingênua por
     substring — a própria frase de aviso deste relatório MENCIONA a
     palavra "discussion" para dizer que não tem uma, o que é esperado)."""
     summaries, stats, pooled, exp_dir = _run_small_ensemble(tmp_path)

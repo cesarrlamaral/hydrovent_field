@@ -739,18 +739,11 @@ fraco em MAGNITUDE — mas ver §7.8.4: regressão multivariada mostra que
 esse efeito é REAL, não um artefato de confundimento, e explicável
 mecanisticamente pela própria definição da métrica, não descartável como
 inicialmente suspeitado aqui), α de entranhamento e densidade do
-agregado sem correlação significativa (|ρ|<0,03). Reproduzível via
-`report._aggregate_acoustic_stats(summaries)` sobre os `summaries` do
-ensemble (usado por `report.py` para popular Results/Discussion — ver
-abaixo).
+agregado sem correlação significativa (|ρ|<0,03). Reproduzível
+diretamente a partir dos `summaries` por-run do ensemble.
 
 **Por que isso é discutido sob a moldura de "eventos raros" em origem
-da vida** (pedido explícito do usuário, 2026-08-07, threaded por todo
-`report.py`: título, abstract, introdução/objetivo, resultados,
-discussão, conclusão, limitações, e nos três geradores de relatório —
-`generate_scientific_report`, `generate_admin_report`,
-`generate_admin_paper_plosone`, que reaproveita as mesmas funções de
-seção): hipóteses de origem da vida não exigem que um mecanismo de
+da vida** (pedido explícito do usuário, 2026-08-07): hipóteses de origem da vida não exigem que um mecanismo de
 concentração funcione de forma confiável NA MÉDIA — exigem que ele
 funcione PELO MENOS UMA VEZ, em algum vent, em algum momento da história
 Hadeana/Arqueana inicial da Terra, depois do que química
@@ -759,11 +752,10 @@ do mecanismo. Esse é o argumento de "muitas tentativas": mesmo uma
 probabilidade por-realização pequena, multiplicada por um número
 plausivelmente enorme de sistemas hidrotermais independentes ao longo
 do tempo geológico, pode gerar um valor esperado de sucessos >> 1. Duas
-referências ancoram essa moldura no texto (citações RECUPERADAS DA
-MEMÓRIA DE TREINAMENTO, não lidas em texto primário nesta sessão —
-adicionadas a `docs/CITATIONS_TO_VERIFY.md` pra verificação futura,
-mesmo processo já aplicado a todas as outras citações reconstruídas
-deste jeito no projeto):
+referências ancoram essa moldura (citações RECUPERADAS DA MEMÓRIA DE
+TREINAMENTO, não lidas em texto primário nesta sessão — sinalizadas
+para verificação futura, mesmo processo já aplicado a todas as outras
+citações reconstruídas deste jeito no projeto):
 - Lineweaver, C.H., & Davis, T.M. (2002). "Does the rapid appearance of
   life on Earth suggest that life is common in the universe?"
   *Astrobiology* 2(3), 293-304 — argumento de que o aparecimento rápido
@@ -1464,8 +1456,8 @@ fonte primária:
 - **Vuillermet, G., Gires, P.-Y., Casset, F., & Poulain, C. (2016),
   "Chladni Patterns in a Liquid at Microscale," *Physical Review
   Letters* 116(18), 184501** (citação verificada via Crossref; PDF
-  completo não obtido por canal legítimo gratuito — ver
-  `docs/CITATIONS_TO_VERIFY.md`) e **Lei, J. (2017), "Formation of
+  completo não obtido por canal legítimo gratuito, sinalizado para
+  verificação futura) e **Lei, J. (2017), "Formation of
   inverse Chladni patterns in liquids at microscale: roles of acoustic
   radiation and streaming-induced drag forces," *Microfluidics and
   Nanofluidics* 21(3), 50** (idem) confirmam em líquido microescala: há
@@ -1554,9 +1546,9 @@ delimitada.
   cálculo, ou ponto fixo; material/espessura do recipiente).
 - Vuillermet (2016) e Lei (2017) são citados apenas por metadados
   verificados (Crossref) e resumos de busca — texto primário não obtido
-  (tentativas de PDF via Springer/APS/ResearchGate bloqueadas; ver
-  `docs/CITATIONS_TO_VERIFY.md`). Faraday (1831) e Crone et al. (2006)
-  foram verificados por leitura direta do texto primário completo.
+  (tentativas de PDF via Springer/APS/ResearchGate bloqueadas). Faraday
+  (1831) e Crone et al. (2006) foram verificados por leitura direta do
+  texto primário completo.
 - A hipótese de co-localização DNA↔traçador visível (9.3) e a hipótese
   de ressonância de conduto em chaminés reais (9.4) são propostas
   motivadas por evidência indireta, não confirmadas — nenhuma delas foi
@@ -1572,10 +1564,10 @@ Ao contrário das Fases 1-5 (modelo físico/módulos específicos) e das
 seções 7.8.2-7.8.4 (ferramentas específicas do fluxo `--variance-
 decomposition`), esta fase documenta uma melhoria na infraestrutura
 estatística de PROPÓSITO GERAL já usada por todo o projeto —
-`ensemble_stats.describe()`, consumida pela aba de estatísticas da GUI e
-por todas as tabelas descritivas de `report.py`, para QUALQUER grandeza
-agregada de um ensemble (concentração/enriquecimento prebiótico,
-diagnósticos acústicos, nº de vents — não só o módulo acústico).
+`ensemble_stats.describe()`, consumida pela aba de estatísticas da GUI
+para QUALQUER grandeza agregada de um ensemble (concentração/
+enriquecimento prebiótico, diagnósticos acústicos, nº de vents — não só
+o módulo acústico).
 
 ## 10.1 Por que mean/std sozinhos enganam neste projeto
 
@@ -1646,7 +1638,7 @@ existente quebra):
 ## 10.2b IC 95% por bootstrap para TODA estatística contínua
 
 Antes desta seção, só a fração binária de eventos raros tinha IC
-(`_wilson_ci95` em `report.py`, §7.8.1) — toda estatística CONTÍNUA
+(intervalo de Wilson, §7.8.1) — toda estatística CONTÍNUA
 (mean, median, iqr, skewness...) era reportada como número nu, sem
 incerteza. `describe()` ganhou o parâmetro `n_bootstrap` (padrão 0 —
 comportamento IDÊNTICO ao de antes, nenhuma chave nova sem pedir
@@ -1711,12 +1703,9 @@ Implementado em `ensemble_report.py` — pedido explícito do usuário (2026-08-
 sessão seguinte a esta): "quero que a gente volte a ter uma seção de
 relatório aberto na GUI, mas apenas o relatório estatístico... nada de
 discussão ou formato de artigo... nada de imagens representativas."
-Distinto de `report.py`/`relatorios_admin.py` (gitignored, texto
-interpretativo específico do autor + login de Administrador, não
-tocados por este trabalho) pela MESMA régua já usada no
-`.gitignore`/`CONTRIBUTING.md` do projeto para decidir o que é software
-genérico vs. conteúdo específico do autor — `ensemble_report.py` é
-tracked no git.
+Deliberadamente sem interpretação/discussão nem formato de artigo, pela
+MESMA régua já usada no `.gitignore`/`CONTRIBUTING.md` do projeto para
+decidir o que é software genérico vs. conteúdo específico do autor.
 
 **Conteúdo do relatório** (botão "Generate statistical report (HTML)"
 na aba de estatísticas, disponível sem login assim que um ensemble
@@ -1795,9 +1784,9 @@ se ESTABILIZA como esperado, e quanto rodar 10000 em vez de 1000
 realmente compraria em precisão — sem rodar nenhuma simulação nova, só
 reanalisando os dois ensembles reais já existentes.
 
-**IC de Wilson reimplementado aqui** (não importado de `report.py`,
-gitignored — este módulo é tracked e precisa funcionar sozinho num
-clone público do repositório) — validado contra o próprio valor já
+**IC de Wilson reimplementado aqui** (este módulo é tracked e precisa
+funcionar sozinho num clone público do repositório) — validado contra o
+próprio valor já
 documentado em §7.8.1 (k=7,n=1000 → IC 95% [0,34%, 1,44%], reproduzido
 exatamente) e contra cobertura empírica média ~94,8% sobre várias
 combinações (p,n) (Wilson tem cobertura conhecidamente OSCILANTE em

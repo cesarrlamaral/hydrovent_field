@@ -57,8 +57,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   captions), the per-run results table, and — when the ensemble used
   `--sensitivity-sweep` — a driver-regression table. Deliberately no
   interpretation/discussion, article framing, or per-run representative
-  images (topview/3D/artistic renders) — that remains the separate,
-  gitignored, Administrator-only `report.py`/`relatorios_admin.py`.
+  images (topview/3D/artistic renders).
 - `--variance-decomposition` is now also available from the GUI as a
   third execution mode ("Variance decomposition (nested)") alongside
   single run/ensemble, with a live results panel and full sections
@@ -114,17 +113,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   to have caught this). The rise-height validation test now uses a
   closed form derived directly from MTT (1956) instead of a previously
   unverified, and as it turns out fabricated, "5·π^-0.25"/"2.98"
-  coefficient. See docs/PHYSICS_MODEL.md §2/§2.2 and
-  docs/CITATIONS_TO_VERIFY.md for the full derivation and correction.
+  coefficient. See docs/PHYSICS_MODEL.md §2/§2.2 for the full derivation
+  and correction.
 - **Citation-accuracy fixes** found while verifying ~20 newly-obtained
   primary-source PDFs against every number/claim currently in the
-  codebase (full detail in docs/CITATIONS_TO_VERIFY.md):
-  - `report.py`: Lemaréchal, Roullet & Gula (2025) reference had a wrong
-    first author initial and an entirely fabricated title ("On the
-    entrainment coefficient near hydrothermal vent orifices" — the real
-    title is "Hydrothermal Plume Near-Field Dynamics From LES and
-    Observations"); Field & Sherrell (2000) reference also had a wrong
-    title.
+  codebase:
   - `acoustics.py`: the comment on `PARTICLE_CLASSES["fine_sulfide_colloid"]`
     conflated Klevenz et al. (2011)'s sample-filter pore size (0.2 μm,
     methodology) with a claimed particle-size measurement the paper

@@ -367,8 +367,7 @@ STRINGS: dict[str, dict[str, str]] = {
     "col_top_type": {"en": "Leading hotspot type", "pt": "Tipo do hotspot líder"},
 
     # --- Ensemble statistical report (open to all users, no interpretation/
-    # discussion — see ensemble_report.py; distinct from the gitignored,
-    # Administrator-only report.py) ---
+    # discussion — see ensemble_report.py) ---
     "btn_generate_ensemble_report": {
         "en": "Generate statistical report (HTML)",
         "pt": "Gerar relatório estatístico (HTML)",

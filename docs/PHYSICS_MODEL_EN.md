@@ -741,18 +741,11 @@ in MAGNITUDE — but see §7.8.4: multivariate regression shows this
 effect is REAL, not a confounding artifact, and mechanistically
 explainable from the metric's own definition, not dismissible as
 initially suspected here), entrainment alpha and aggregate density with
-no significant correlation (|ρ|<0.03). Reproducible via
-`report._aggregate_acoustic_stats(summaries)` over the ensemble's
-`summaries` (used by `report.py` to populate Results/Discussion — see
-below).
+no significant correlation (|ρ|<0.03). Reproducible directly from the
+ensemble's per-run `summaries`.
 
 **Why this is discussed under an origin-of-life "rare events" framing**
-(explicit user request, 2026-08-07, threaded throughout `report.py`:
-title, abstract, introduction/objective, results, discussion,
-conclusion, limitations, and in the three report generators —
-`generate_scientific_report`, `generate_admin_report`,
-`generate_admin_paper_plosone`, which reuse the same section
-functions): origin-of-life hypotheses do not require a concentration
+(explicit user request, 2026-08-07): origin-of-life hypotheses do not require a concentration
 mechanism to work reliably ON AVERAGE — they require it to work AT
 LEAST ONCE, at some vent, at some point during the Hadean/early
 Archean history of Earth, after which autocatalytic/template-
@@ -761,10 +754,10 @@ mechanism. This is the "many trials" argument: even a small
 per-realization probability, multiplied by a plausibly enormous number
 of independent hydrothermal systems over geological time, can yield an
 expected number of successes >> 1. Two references anchor this framing
-in the text (citations RETRIEVED FROM TRAINING MEMORY, not read in
-primary text during this session — added to `docs/CITATIONS_TO_VERIFY.md`
-for future verification, the same process already applied to every
-other citation reconstructed this way in the project):
+(citations RETRIEVED FROM TRAINING MEMORY, not read in primary text
+during this session — flagged for future verification, the same
+process already applied to every other citation reconstructed this way
+in the project):
 - Lineweaver, C.H., & Davis, T.M. (2002). "Does the rapid appearance of
   life on Earth suggest that life is common in the universe?"
   *Astrobiology* 2(3), 293-304 — argues that the rapid appearance of
@@ -1471,8 +1464,8 @@ primary source:
 - **Vuillermet, G., Gires, P.-Y., Casset, F., & Poulain, C. (2016),
   "Chladni Patterns in a Liquid at Microscale," *Physical Review
   Letters* 116(18), 184501** (citation verified via Crossref; full PDF
-  not obtained through a legitimate free channel — see
-  `docs/CITATIONS_TO_VERIFY.md`) and **Lei, J. (2017), "Formation of
+  not obtained through a legitimate free channel, flagged for future
+  verification) and **Lei, J. (2017), "Formation of
   inverse Chladni patterns in liquids at microscale: roles of acoustic
   radiation and streaming-induced drag forces," *Microfluidics and
   Nanofluidics* 21(3), 50** (idem) confirm in microscale liquid: there
@@ -1561,9 +1554,9 @@ opened by this section — not closed, only delimited.
   tracer, calculation, or fixed point; container material/thickness).
 - Vuillermet (2016) and Lei (2017) are cited only via verified metadata
   (Crossref) and search abstracts — the primary text was not obtained
-  (PDF attempts via Springer/APS/ResearchGate were blocked; see
-  `docs/CITATIONS_TO_VERIFY.md`). Faraday (1831) and Crone et al.
-  (2006) were verified by direct reading of the full primary text.
+  (PDF attempts via Springer/APS/ResearchGate were blocked). Faraday
+  (1831) and Crone et al. (2006) were verified by direct reading of the
+  full primary text.
 - The DNA↔visible-tracer co-localization hypothesis (9.3) and the
   real-chimney conduit-resonance hypothesis (9.4) are proposals
   motivated by indirect evidence, not confirmed — neither was tested
@@ -1579,10 +1572,9 @@ Unlike Phases 1-5 (specific physical model/modules) and sections
 7.8.2-7.8.4 (tools specific to the `--variance-decomposition`
 pipeline), this phase documents an improvement to GENERAL-PURPOSE
 statistical infrastructure already used across the whole project —
-`ensemble_stats.describe()`, consumed by the GUI's statistics tab and
-by every descriptive table in `report.py`, for ANY aggregated ensemble
-quantity (prebiotic concentration/enrichment, acoustic diagnostics,
-vent count — not just the acoustic module).
+`ensemble_stats.describe()`, consumed by the GUI's statistics tab for
+ANY aggregated ensemble quantity (prebiotic concentration/enrichment,
+acoustic diagnostics, vent count — not just the acoustic module).
 
 ## 10.1 Why mean/std alone are misleading in this project
 
@@ -1653,7 +1645,7 @@ breaks):
 ## 10.2b 95% bootstrap CI for EVERY continuous statistic
 
 Before this section, only the binary rare-event fraction had a CI
-(`_wilson_ci95` in `report.py`, §7.8.1) — every CONTINUOUS statistic
+(Wilson score interval, §7.8.1) — every CONTINUOUS statistic
 (mean, median, iqr, skewness...) was reported as a bare number, with
 no uncertainty. `describe()` gained the `n_bootstrap` parameter
 (default 0 — behavior IDENTICAL to before, no new key unless
@@ -1718,11 +1710,10 @@ Implemented in `ensemble_report.py` — explicit user request
 (2026-08-07, the session following this one): "I want us to have an
 open report section in the GUI again, but only the statistical
 report... no discussion or article format... no representative
-images." Distinct from `report.py`/`relatorios_admin.py` (gitignored,
-author-specific interpretive text + Administrator login, not touched
-by this work) by the SAME standard already used in the project's
+images." Deliberately no interpretation/discussion or article framing,
+by the SAME standard already used in the project's
 `.gitignore`/`CONTRIBUTING.md` to decide what is generic software vs.
-author-specific content — `ensemble_report.py` is tracked in git.
+author-specific content.
 
 **Report contents** (the "Generate statistical report (HTML)" button in
 the statistics tab, available with no login as soon as an ensemble
@@ -1803,9 +1794,9 @@ expected, and how much running 10000 instead of 1000 would actually buy
 in precision — with no new simulation run, just reanalyzing the two
 real ensembles that already exist.
 
-**Wilson CI reimplemented here** (not imported from `report.py`,
-gitignored — this module is tracked and needs to work standalone in a
-public clone of the repository) — validated against the value already
+**Wilson CI reimplemented here** (this module is tracked and needs to
+work standalone in a public clone of the repository) — validated
+against the value already
 documented in §7.8.1 (k=7,n=1000 → 95% CI [0.34%, 1.44%], exactly
 reproduced) and against average empirical coverage ~94.8% across
 several (p,n) combinations (Wilson has known OSCILLATING coverage
