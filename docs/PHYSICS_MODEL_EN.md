@@ -744,8 +744,8 @@ initially suspected here), entrainment alpha and aggregate density with
 no significant correlation (|ρ|<0.03). Reproducible directly from the
 ensemble's per-run `summaries`.
 
-**Why this is discussed under an origin-of-life "rare events" framing**
-(explicit user request, 2026-08-07): origin-of-life hypotheses do not require a concentration
+**Why this is discussed under an origin-of-life "rare events" framing**:
+origin-of-life hypotheses do not require a concentration
 mechanism to work reliably ON AVERAGE — they require it to work AT
 LEAST ONCE, at some vent, at some point during the Hadean/early
 Archean history of Earth, after which autocatalytic/template-
@@ -1701,12 +1701,9 @@ pytest tests/test_ensemble_stats.py -v
 
 ## 10.4 Open statistical report in the GUI (no interpretation, no login)
 
-Implemented in `ensemble_report.py` — explicit user request
-(2026-08-07, the session following this one): "I want us to have an
-open report section in the GUI again, but only the statistical
-report... no discussion or article format... no representative
-images." Deliberately no interpretation/discussion or article framing,
-by the SAME standard already used in the project's
+Implemented in `ensemble_report.py`, deliberately no
+interpretation/discussion or article framing, by the SAME standard
+already used in the project's
 `.gitignore`/`CONTRIBUTING.md` to decide what is generic software vs.
 author-specific content.
 
@@ -1726,10 +1723,8 @@ discussion, manuscript framing, or any image of ONE specific run
 (`test_report_does_not_contain_discussion_or_article_framing`,
 `test_report_does_not_embed_representative_run_images`).
 
-**`--variance-decomposition` brought into the GUI** (same session, the
-user's next request after noticing that items marked "done" did not
-imply they showed up in the GUI): a third execution mode, "Variance
-decomposition (nested)" (`HydroventGUI._on_run_clicked`/
+**`--variance-decomposition` brought into the GUI**: a third execution
+mode, "Variance decomposition (nested)" (`HydroventGUI._on_run_clicked`/
 `_vardecomp_worker`), with its own fields for number of outer points/
 inner replicates (same CLI defaults, 20/10). On completion,
 `_on_vardecomp_finished` loads the individual runs from disk (the same

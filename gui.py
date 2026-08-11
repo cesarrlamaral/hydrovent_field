@@ -247,7 +247,7 @@ class ZoomPanCanvas(ttk.Frame):
 
 
 # --------------------------------------------------------------------------
-# Protocolo "Experiment Run" — pedido do usuário 2026-08-09: travar TODO
+# Protocolo "Experiment Run": trava TODO
 # parâmetro que definiu os ensembles reais usados na análise de
 # referência do autor (molécula=nucleotideos/acústica=both/
 # sensitivity-sweep, bacia atlantic), não só molécula+modo acústico como
@@ -261,11 +261,9 @@ class ZoomPanCanvas(ttk.Frame):
 # nunca reaproveitar a mesma), nº de runs, geração de imagens, paralelismo/
 # nº de processos, pasta de saída/nome base, e todos os parâmetros de
 # visualização 3D (afetam só a renderização, nunca os dados científicos).
-# nº de runs (pedido do usuário 2026-08-09: já relatamos os tamanhos de
-# ensemble usados no próprio paper, então esse número pode continuar
-# livre) só ganha aqui um valor SUGERIDO pra pré-preencher o campo (o
-# maior dos dois ensembles reais, experimento_260807_021219/
-# experimento_260808_111609) — não uma trava; o campo continua editável.
+# nº de runs continua livre; só ganha aqui um valor SUGERIDO pra
+# pré-preencher o campo (o maior dos ensembles de referência) — não uma
+# trava; o campo continua editável.
 _EXPERIMENT_RUN_SUGGESTED_N_RUNS = 1000
 
 _EXPERIMENT_RUN_PROTOCOL = {

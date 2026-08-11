@@ -743,7 +743,7 @@ agregado sem correlação significativa (|ρ|<0,03). Reproduzível
 diretamente a partir dos `summaries` por-run do ensemble.
 
 **Por que isso é discutido sob a moldura de "eventos raros" em origem
-da vida** (pedido explícito do usuário, 2026-08-07): hipóteses de origem da vida não exigem que um mecanismo de
+da vida**: hipóteses de origem da vida não exigem que um mecanismo de
 concentração funcione de forma confiável NA MÉDIA — exigem que ele
 funcione PELO MENOS UMA VEZ, em algum vent, em algum momento da história
 Hadeana/Arqueana inicial da Terra, depois do que química
@@ -1695,11 +1695,8 @@ pytest tests/test_ensemble_stats.py -v
 
 ## 10.4 Relatório estatístico aberto na GUI (sem interpretação, sem login)
 
-Implementado em `ensemble_report.py` — pedido explícito do usuário (2026-08-07,
-sessão seguinte a esta): "quero que a gente volte a ter uma seção de
-relatório aberto na GUI, mas apenas o relatório estatístico... nada de
-discussão ou formato de artigo... nada de imagens representativas."
-Deliberadamente sem interpretação/discussão nem formato de artigo, pela
+Implementado em `ensemble_report.py`, deliberadamente sem
+interpretação/discussão nem formato de artigo, pela
 MESMA régua já usada no `.gitignore`/`CONTRIBUTING.md` do projeto para
 decidir o que é software genérico vs. conteúdo específico do autor.
 
@@ -1718,10 +1715,8 @@ imagem de UMA run específica (topview/3D/artístico) — restrições
 testadas explicitamente (`test_report_does_not_contain_discussion_or_
 article_framing`, `test_report_does_not_embed_representative_run_images`).
 
-**`--variance-decomposition` trazido para a GUI** (mesma sessão, pedido
-seguinte do usuário após notar que a lista de itens "concluídos" não
-implicava aparecer na GUI): terceiro modo de execução "Variance
-decomposition (nested)" ao lado de single/ensemble
+**`--variance-decomposition` trazido para a GUI**: terceiro modo de
+execução "Variance decomposition (nested)" ao lado de single/ensemble
 (`HydroventGUI._on_run_clicked`/`_vardecomp_worker`), com campos
 próprios para nº de pontos externos/réplicas internas (mesmos defaults
 da CLI, 20/10). Ao terminar, `_on_vardecomp_finished` carrega as runs

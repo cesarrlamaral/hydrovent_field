@@ -775,9 +775,9 @@ def render_artistic_scene(terrain: np.ndarray, vents: List, out_path: str,
     # (só aplica os canais metallic/roughness, sem textura nenhuma —
     # confirmado isolando um plano de teste). Só o pipeline clássico
     # modula textura×cor-por-vértice corretamente, então é o único jeito
-    # de ter textura real (o "mais vida"/rugosidade pedido) E manter o
-    # tingimento de dados (manchas ferruginosas por proximidade real da
-    # fumarola) ao mesmo tempo.
+    # de ter textura/rugosidade real E manter o tingimento de dados
+    # (manchas ferruginosas por proximidade real da fumarola) ao mesmo
+    # tempo.
     plotter.add_mesh(grid, texture=_load_texture(_ROCK_TEXTURE_PATH, gamma=2.4),
                       scalars="colors", rgb=True, smooth_shading=True,
                       pbr=False, ambient=0.30, diffuse=1.0, specular=0.05)

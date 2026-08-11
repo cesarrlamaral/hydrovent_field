@@ -1,3 +1,9 @@
+# Backups locais do próprio repositório — nunca devem ser versionados
+# (arquivo grande, conteúdo duplica tudo, inclusive o que é
+# deliberadamente excluído acima).
+*.zip
+*backup*
+
 # Dados gerados por runs/ensembles — totalmente reproduzíveis a partir do
 # seed (ver docs/PHYSICS_MODEL.md), não faz sentido versionar (>1GB e cresce
 # a cada run).
