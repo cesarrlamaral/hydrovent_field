@@ -44,7 +44,7 @@ except ImportError as exc:  # pragma: no cover - mensagem amigável se a depend�
 # Nesta GPU/driver (confirmado: AMD Radeon RX 7600), atores no estilo
 # "points" (usados pelas plumas/neve marinha) disparam uma falha de
 # compilação de UM shader específico do VTK — inofensiva (o fallback
-# renderiza corretamente; verificado visualmente à exaustão nesta sessão),
+# renderiza corretamente; verificado visualmente à exaustão),
 # mas MUITO verborrágica: cada disparo despeja o código-fonte inteiro do
 # shader no stderr, então um ensemble de poucas dezenas de runs já inunda
 # o console com dezenas de milhares de linhas — alarmante de ver mesmo

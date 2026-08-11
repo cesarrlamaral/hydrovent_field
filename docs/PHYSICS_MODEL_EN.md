@@ -122,8 +122,8 @@ consulted literature gave `5*pi^-0.25 = 3.76` (overshoot height, M=0)
 and `4*pi^-0.25 = 3.01` (intrusion height), **does not correspond to
 any equation in Speer & Rona (1989)** nor to any verifiable source —
 the `pi^-0.25` factor multiplying the "5" does not appear anywhere in
-the primary text; it appears to have been an invented combination in
-an earlier session. The paper's real equation (eq. 5, p. 6214,
+the primary text; it appears to have been an invented combination, not
+a real citation. The paper's real equation (eq. 5, p. 6214,
 attributed by them to Turner, J.S. (1973), *Buoyancy Effects in
 Fluids*, Cambridge Univ. Press — not verified here, text not obtained)
 is
@@ -148,7 +148,7 @@ out of scope for this fix).
 The closed-form formula used as a **validation test**
 (`tests/test_plume_physics.py::test_rise_height_reconciles_with_mtt_closed_form`)
 was replaced by the closed form derived directly from MTT (1956) eqs.
-(10)/(14), verified through three independent routes in this session
+(10)/(14), verified through three independent routes
 (exact reproduction of the paper's Table 1 by numerical integration of
 the reduced system eq. 11; algebraic verification of eqs. (7)/(8)/(10);
 and cross-checking of the dimensional coefficient `0.410` from eq.
@@ -168,7 +168,7 @@ no dependence on `alpha` (like the previously used "2.98") cannot
 literally be MTT (1956), even though it could be a legitimate
 approximation from another source with `alpha` implicitly fixed. The
 earlier citation to Jones, Hogg, Kerr et al. (2020) for `z ≈
-2.98*(B0/N³)^0.25` remains **unverified** in this session (PDF not
+2.98*(B0/N³)^0.25` remains **unverified** (PDF not
 obtained) — kept only in the section 2 note about the equivalent
 per-angle form, no longer used as the basis of the validation test.
 Since the new closed form's locus `x1=2.125` is exactly the same
@@ -539,10 +539,9 @@ see §7.8). The current independent sampling remains the correct,
 already-validated choice (`joint_latin_hypercube`, §7.8/regression test
 `test_sweep_produces_no_spurious_correlation`).
 
-**Corrective note**: this session's earlier memory/conversation entries
-that motivated this item contained this unverified assumption about the
-paper's "raw data" — there is no raw radius-density data in that paper.
-Recorded here so the assumption is not repeated in a future session.
+**Corrective note**: an earlier assumption about the paper's "raw
+data" was incorrect — there is no raw radius-density data in that
+paper. Recorded here so the assumption is not repeated later.
 
 ## 7.6 Mechanism A — boundary streaming + real advection-diffusion
 
@@ -754,8 +753,8 @@ mechanism. This is the "many trials" argument: even a small
 per-realization probability, multiplied by a plausibly enormous number
 of independent hydrothermal systems over geological time, can yield an
 expected number of successes >> 1. Two references anchor this framing
-(citations RETRIEVED FROM TRAINING MEMORY, not read in primary text
-during this session — flagged for future verification, the same
+(citations reconstructed from memory, not read in primary text —
+flagged for future verification, the same
 process already applied to every other citation reconstructed this way
 in the project):
 - Lineweaver, C.H., & Davis, T.M. (2002). "Does the rapid appearance of
@@ -852,8 +851,7 @@ stochastic noise; only group effect, no noise) are correctly recognized
 code-shape test, it tests whether the math recovers a known result.
 
 **Cost**: each replicate is a full physical simulation (same cost as a
-normal run, ~10-11s/run with acoustics+plume ODE, measured in a
-previous session) — the default design (`--outer-samples 20
+normal run, ~10-11s/run with acoustics+plume ODE) — the default design (`--outer-samples 20
 --inner-replicates 10` = 200 runs) is deliberately more modest than a
 typical ensemble of thousands of runs; more N_outer improves the
 parametric component's resolution, more N_inner improves the
@@ -916,7 +914,7 @@ Sobol' sequence (low-discrepancy — Sobol, I.M., 1967/1976; a DIFFERENT
 tool from the same-named sensitivity indices) of dimension 2d split
 into columns, not two independently constructed sequences.
 
-**Real bug found and fixed in this session**: the first implementation
+**Real bug found and fixed**: the first implementation
 generated A and B as two INDEPENDENT instances of `qmc.Sobol` — each
 well distributed in its own dimension, but without the correlation
 structure the Saltelli/Jansen estimator requires between A and B.
@@ -940,8 +938,8 @@ simulation) can be poor. Every result comes with `loo_cv_r2`
 Rasmussen & Williams 2006, §5.4.2 — validated against a genuinely
 held-out test set in `tests/test_global_sensitivity.py`) and an
 explicit warning (`loo_cv_r2_warning`, threshold R²<0.5) when the fit
-is too weak to trust the indices — tested on a real case from this
-session (`--outer-samples 8` with 3 parameters: R²=0.000, indices
+is too weak to trust the indices — tested on a real case
+(`--outer-samples 8` with 3 parameters: R²=0.000, indices
 discardable, warning correctly fired; `--outer-samples 20`, the
 production default: R²=0.313, still an honest warning, but indices
 consistent with the driver already identified in §7.8.1 — aggregate
@@ -1678,7 +1676,7 @@ in any `describe()` call with `n_bootstrap>0`.
 ## 10.3 Tested
 
 `tests/test_ensemble_stats.py` (this module's first dedicated test
-coverage — extracted from gui.py in a previous session with no tests
+coverage — extracted from gui.py with no tests
 of its own at the time): exact backward compatibility of pre-existing
 keys; IQR against direct `np.percentile`; recovery of skewness≈0/
 kurtosis≈0 on a large synthetic normal; skewness>1 on a synthetic
@@ -1949,7 +1947,7 @@ Fixed as a permanent regression test.
 
 **Applied to the project's two real ensembles** (100 and 1000 runs,
 1100 runs total): 0 real errors found (expected — data already
-extensively analyzed in this session); 66 `soft_flags` total, all in
+extensively analyzed); 66 `soft_flags` total, all in
 `top_hotspot_enrichment_vs_control`/
 `gorkov_trap_depth_over_kT` — matching exactly the already-known long
 tail of these distributions (§7.8.1/§10.1), not new problems.

@@ -3,14 +3,14 @@ Testes de integração da GUI (Tkinter) — primeira cobertura de teste
 automatizada deste módulo (antes só verificado manualmente via "python -c
 'import gui'"/smoke tests ad-hoc, ver histórico do projeto). Foco no
 modo de execução "vardecomp" (--variance-decomposition trazido para a
-GUI) adicionado nesta sessão: alternância de widgets, o clique do botão
+GUI): alternância de widgets, o clique do botão
 disparando o worker/thread real, e o resultado populando a aba de
 estatísticas — não só chamando as funções de `fumarola_field.py`/
 `ensemble_report.py` isoladamente (essas já têm cobertura própria),
 mas o objeto REAL `HydroventGUI` e seus handlers.
 
 `root.withdraw()` roda a janela sem exibi-la — funciona no Windows sem
-servidor de display (testado, ver commit desta sessão). `root.update()`
+servidor de display (testado). `root.update()`
 em loop processa a fila de eventos do Tk (equivalente a deixar o
 mainloop rodar) enquanto uma thread de fundo (run_thread/stats_thread)
 termina — mesmo padrão usado pela própria aplicação via `root.after`.
@@ -47,7 +47,7 @@ def _wait_until(condition, timeout_s=30.0, root=None):
 def root():
     """UMA raiz Tk para o módulo inteiro — criar/destruir várias
     instâncias de tk.Tk() no mesmo processo mostrou-se instável nesta
-    combinação de plataforma/Tcl (achado real durante esta sessão:
+    combinação de plataforma/Tcl (achado real:
     rodar os testes deste arquivo em sequência causava desde exceções
     fatais do Windows até falha silenciosa ao criar a próxima Tk(),
     sempre que cada teste criava/destruía sua própria raiz — cada teste

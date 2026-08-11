@@ -1,7 +1,6 @@
 """
 QA automatizada de integridade de um ensemble — verificação sistemática
-em vez de confiar só em inspeção manual ocasional (item de robustez
-estatística desta sessão). Dois níveis DELIBERADAMENTE separados:
+em vez de confiar só em inspeção manual ocasional. Dois níveis DELIBERADAMENTE separados:
 
 - `hard_errors`: problemas inequívocos (NaN/Inf, valor negativo onde
   fisicamente impossível, seeds duplicadas, inconsistência interna
@@ -13,8 +12,8 @@ estatística desta sessão). Dois níveis DELIBERADAMENTE separados:
   Gor'kov — docs/PHYSICS_MODEL.md §7.8.1/§10.1); um outlier estatístico
   aqui é, com boa probabilidade, o mesmo tipo de evento raro real que
   o resto do projeto foi construído pra estudar, não um bug — misturar
-  os dois níveis seria exatamente o erro que o restante desta sessão
-  (ver §7.8.4) já mostrou ser real: tratar sinal real como ruído.
+  os dois níveis seria exatamente o erro que §7.8.4 (docs/PHYSICS_MODEL.md)
+  já mostrou ser real: tratar sinal real como ruído.
 
 Módulo puro (sem Tkinter/relatório), opera sobre a MESMA lista de
 `summaries` (dicts) já usada pelo resto do projeto — não um parser de

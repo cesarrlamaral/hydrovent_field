@@ -50,7 +50,7 @@ def test_unstratified_scaling_matches_classical_5_3_power_law():
 # Forma fechada derivada diretamente de Morton, Taylor & Turner (1956),
 # eqs. (10)/(14) (locus x1=2.125, onde a flutuabilidade se anula —
 # mesmo evento B(z)=0 usado pelo integrador): z ~= 0.7326 * alpha^-0.5 *
-# B0^0.25 * N^-0.75. Verificada nesta sessão por três vias independentes
+# B0^0.25 * N^-0.75. Verificada por três vias independentes
 # (reprodução numérica exata da Tabela 1 do artigo, verificação
 # algébrica das eqs. 7/8/10, e conferência do coeficiente dimensional
 # 0.410 de eq. 14) — ver docs/PHYSICS_MODEL.md §2.2. O locus x1=2.125

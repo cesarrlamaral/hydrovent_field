@@ -1,10 +1,10 @@
 """
 Testes de `ensemble_stats.py` — primeira cobertura de teste dedicada
-deste módulo (extraído de gui.py numa sessão anterior sem ganhar testes
+deste módulo (extraído de gui.py sem ganhar testes
 próprios na época). Foco em `describe()`: as chaves PRÉ-EXISTENTES
 (n/mean/std/min/median/max, já lidas diretamente por gui.py)
 precisam manter semântica idêntica; as novas (q1/q3/iqr/mad/mad_scaled/
-skewness/kurtosis/mean_median_gap_over_iqr) são a extensão desta sessão.
+skewness/kurtosis/mean_median_gap_over_iqr) são a extensão mais recente.
 
 Rodar com: pytest tests/test_ensemble_stats.py -v
 """

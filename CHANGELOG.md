@@ -94,7 +94,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   German & Sparks (1993), not measured data. Independent sampling
   remains the correct, defensible choice; documented in
   docs/PHYSICS_MODEL.md §7.5b to avoid repeating the incorrect
-  assumption in a future session.
+  assumption later.
 
 ### Fixed
 

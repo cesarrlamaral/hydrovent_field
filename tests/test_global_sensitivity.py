@@ -78,7 +78,7 @@ def test_sobol_interaction_function_shows_total_exceeds_first_order():
 
 
 def test_sobol_matrices_use_joint_sequence_not_independent_ones():
-    """Regressão do bug real encontrado nesta sessão: gerar A e B como
+    """Regressão de um bug real: gerar A e B como
     duas instâncias INDEPENDENTES de qmc.Sobol (em vez de uma sequência
     conjunta de dimensão 2d dividida em A/B) quebra a estrutura exigida
     pelo estimador de Saltelli/Jansen — mediu S1~0.09 em vez do valor
@@ -94,7 +94,7 @@ def test_sobol_matrices_use_joint_sequence_not_independent_ones():
 
 
 def test_sobol_indices_stay_within_valid_range_even_for_near_constant_function():
-    """Regressão de um caso real encontrado nesta sessão: com poucos
+    """Regressão de um caso real: com poucos
     pontos de treino (outer_n pequeno, d=3), o GP pode convergir para uma
     função quase constante (sinal abaixo do ruído) — var_y do MC de Sobol'
     fica perto de zero e a razão v_i/var_y pode escapar de [0,1] por

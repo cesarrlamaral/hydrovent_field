@@ -124,7 +124,7 @@ consultada dava `5*pi^-0.25 = 3.76` (altura de overshoot, M=0) e
 equação do artigo de Speer & Rona (1989)** nem a nenhuma fonte
 verificável — o fator `pi^-0.25` multiplicando o "5" não aparece em
 lugar nenhum do texto primário; parece ter sido uma combinação
-inventada numa sessão anterior. A equação real do artigo (eq. 5, p.
+inventada, não uma citação real. A equação real do artigo (eq. 5, p.
 6214, atribuída por eles a Turner, J.S. (1973), *Buoyancy Effects in
 Fluids*, Cambridge Univ. Press — não verificada aqui, texto não obtido)
 é
@@ -148,7 +148,7 @@ Atlântico (TAG) prevê 330m vs. ~360m observado; caso Pacífico prevê
 A fórmula fechada usada como **teste de validação**
 (`tests/test_plume_physics.py::test_rise_height_reconciles_with_mtt_closed_form`)
 foi substituída pela forma fechada derivada diretamente de MTT (1956)
-eqs. (10)/(14), verificada por três vias independentes nesta sessão
+eqs. (10)/(14), verificada por três vias independentes
 (reprodução exata da Tabela 1 do artigo por integração numérica do
 sistema reduzido eq. 11; verificação algébrica das eqs. (7)/(8)/(10);
 e conferência cruzada do coeficiente dimensional `0.410` de eq. (14)).
@@ -168,7 +168,7 @@ dependência em `alpha` (como a "2.98" usada antes) não pode ser
 literalmente MTT (1956), ainda que possa ser uma aproximação legítima
 de outra fonte com `alpha` fixado implicitamente. A citação anterior a
 Jones, Hogg, Kerr et al. (2020) para `z ≈ 2.98*(B0/N³)^0.25` permanece
-**não verificada** nesta sessão (PDF não obtido) — mantida apenas na
+**não verificada** (PDF não obtido) — mantida apenas na
 nota da seção 2 sobre a forma per-ângulo equivalente, não mais usada
 como base do teste de validação. Como o locus `x1=2.125` da nova fórmula
 fechada é exatamente o mesmo evento `B(z)=0` que a integração numérica
@@ -538,11 +538,9 @@ ver §7.8). A amostragem independente atual permanece a escolha correta
 e já validada (`joint_latin_hypercube`, §7.8/regressão de teste
 `test_sweep_produces_no_spurious_correlation`).
 
-**Nota corretiva**: as entradas de memória/conversa anteriores desta
-sessão que motivaram este item continham essa suposição não verificada
-sobre os "dados brutos" do artigo — não há dados brutos raio-densidade
-nesse artigo. Registrado aqui para não repetir a suposição numa sessão
-futura.
+**Nota corretiva**: uma suposição anterior sobre "dados brutos" do
+artigo estava incorreta — não há dados brutos raio-densidade nesse
+artigo. Registrado aqui para não repetir a suposição no futuro.
 
 ## 7.6 Mecanismo A — streaming de contorno + advecção-difusão real
 
@@ -752,10 +750,10 @@ do mecanismo. Esse é o argumento de "muitas tentativas": mesmo uma
 probabilidade por-realização pequena, multiplicada por um número
 plausivelmente enorme de sistemas hidrotermais independentes ao longo
 do tempo geológico, pode gerar um valor esperado de sucessos >> 1. Duas
-referências ancoram essa moldura (citações RECUPERADAS DA MEMÓRIA DE
-TREINAMENTO, não lidas em texto primário nesta sessão — sinalizadas
-para verificação futura, mesmo processo já aplicado a todas as outras
-citações reconstruídas deste jeito no projeto):
+referências ancoram essa moldura (citações reconstruídas de memória,
+não lidas em texto primário — sinalizadas para verificação futura,
+mesmo processo já aplicado a todas as outras citações reconstruídas
+deste jeito no projeto):
 - Lineweaver, C.H., & Davis, T.M. (2002). "Does the rapid appearance of
   life on Earth suggest that life is common in the universe?"
   *Astrobiology* 2(3), 293-304 — argumento de que o aparecimento rápido
@@ -849,8 +847,7 @@ respectivamente) — não é só um teste de forma do código, testa se a
 matemática recupera um resultado conhecido.
 
 **Custo**: cada réplica é uma simulação física completa (mesmo custo de
-uma run normal, ~10-11s/run com acústica+ODE de pluma, medido em
-sessão anterior) — o desenho padrão (`--outer-samples 20
+uma run normal, ~10-11s/run com acústica+ODE de pluma) — o desenho padrão (`--outer-samples 20
 --inner-replicates 10` = 200 runs) é deliberadamente mais modesto que um
 ensemble típico de milhares de runs; mais N_outer melhora a resolução da
 componente paramétrica, mais N_inner melhora a da componente estocástica
@@ -913,7 +910,7 @@ matrizes A/B do esquema de Saltelli vêm de UMA ÚNICA sequência de Sobol'
 índices de sensibilidade de mesmo nome) de dimensão 2d dividida em
 colunas, não duas sequências construídas independentemente.
 
-**Bug real encontrado e corrigido nesta sessão**: a primeira
+**Bug real encontrado e corrigido**: a primeira
 implementação gerava A e B como duas instâncias INDEPENDENTES de
 `qmc.Sobol` — cada uma bem distribuída na própria dimensão, mas sem a
 estrutura de correlação que o estimador de Saltelli/Jansen exige entre A
@@ -937,7 +934,7 @@ cruzada leave-one-out, via fórmula fechada de GP — Rasmussen & Williams
 2006, §5.4.2 — validada contra um conjunto de teste genuinamente
 separado em `tests/test_global_sensitivity.py`) e um aviso explícito
 (`loo_cv_r2_warning`, limiar R²<0,5) quando o ajuste é fraco demais para
-confiar nos índices — testado num caso real desta sessão
+confiar nos índices — testado num caso real
 (`--outer-samples 8` com 3 parâmetros: R²=0,000, índices descartáveis,
 aviso disparou corretamente; `--outer-samples 20`, o padrão de
 produção: R²=0,313, ainda um aviso honesto, mas índices consistentes
@@ -1672,7 +1669,7 @@ com `n_bootstrap>0`.
 ## 10.3 Testado
 
 `tests/test_ensemble_stats.py` (primeira cobertura de teste dedicada
-deste módulo — extraído de gui.py numa sessão anterior sem testes
+deste módulo — extraído de gui.py sem testes
 próprios na época): compatibilidade retroativa exata das chaves
 pré-existentes; IQR contra `np.percentile` direto; recuperação de
 skewness≈0/curtose≈0 numa normal sintética grande; skewness>1 numa
@@ -1938,7 +1935,7 @@ ajuste. Fixado como teste de regressão permanente.
 
 **Aplicado aos dois ensembles reais do projeto** (100 e 1000 runs,
 1100 runs no total): 0 erros reais encontrados (esperado — dados já
-extensivamente analisados nesta sessão); 66 `soft_flags` no total,
+extensivamente analisados); 66 `soft_flags` no total,
 todos em `top_hotspot_enrichment_vs_control`/`gorkov_trap_depth_over_
 kT` — correspondendo exatamente à cauda longa já conhecida dessas
 distribuições (§7.8.1/§10.1), não a problemas novos.

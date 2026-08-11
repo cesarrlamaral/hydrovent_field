@@ -88,7 +88,7 @@ def test_detects_count_exceeding_n_vents():
 
 
 def test_count_below_n_vents_is_not_an_error():
-    """Regressão de um bug real encontrado nesta sessão: a primeira
+    """Regressão de um bug real: a primeira
     versão exigia IGUALDADE entre aumentaram+diminuíram+inalterados e
     n_vents — mas essa contagem só inclui vents com enrichment_vs_control
     != None (ver prebiotic.compute_field_hotspots), um SUBCONJUNTO real
